@@ -1,0 +1,17 @@
+---
+title: "Conner Smith"
+image: "me.jpg"
+links:
+  - label: LinkedIn
+    url: "https://www.linkedin.com/in/conner-smith-2551b087/"
+  - label: GitHub
+    url: "https://github.com/connermuir/portfolio"
+  - label: Email
+    url: "mailto:connersmith@bren.ucsb.edu"
+site: distill::distill_website
+output:
+  postcards::jolla
+
+---
+ 
+I am an environmental science and policy professional living in Santa Barbara.  Currently, I am a Master's student at the UCSB Bren School of Environmental Science and Management. I am an avid surfer and steward of the coastal environment.

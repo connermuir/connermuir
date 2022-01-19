@@ -1,0 +1,27 @@
+{
+  "articles": [
+    {
+      "path": "about.html",
+      "title": "About this site",
+      "description": "Some additional details about the website",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-01-19T14:56:22-08:00"
+    },
+    {
+      "path": "blog.html",
+      "title": "Blog",
+      "author": [],
+      "contents": "\r\n\r\n\r\n\r\n",
+      "last_modified": "2022-01-19T14:56:22-08:00"
+    },
+    {
+      "path": "index.html",
+      "title": "Conner Smith",
+      "author": [],
+      "contents": "\r\n\r\n          \r\n          \r\n          mfeo\r\n          \r\n          \r\n          Home\r\n          About\r\n          Blog\r\n          ☰\r\n          \r\n          \r\n      \r\n        \r\n          \r\n            Conner Smith\r\n          \r\n          \r\n            \r\n              I am an environmental science and policy professional living in Santa Barbara. Currently, I am a Master’s student at the UCSB Bren School of Environmental Science and Management. I am an avid surfer and steward of the coastal environment.\r\n            \r\n            \r\n              I am an environmental science and policy professional living in Santa Barbara. Currently, I am a Master’s student at the UCSB Bren School of Environmental Science and Management. I am an avid surfer and steward of the coastal environment.\r\n            \r\n          \r\n\r\n          \r\n            \r\n              \r\n                  \r\n                    \r\n                      LinkedIn\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                      GitHub\r\n                    \r\n                  \r\n                \r\n                                \r\n                  \r\n                    \r\n                      Email\r\n                    \r\n                  \r\n                \r\n                              \r\n          \r\n\r\n          \r\n            \r\n              \r\n                                \r\n                  \r\n                    LinkedIn\r\n                  \r\n                \r\n                                \r\n                  \r\n                    GitHub\r\n                  \r\n                \r\n                                \r\n                  \r\n                    Email\r\n                  \r\n                \r\n                              \r\n            \r\n          \r\n        \r\n      \r\n    \r\n\r\n    \r\n    \r\n    ",
+      "last_modified": "2022-01-19T14:56:22-08:00"
+    }
+  ],
+  "collections": ["posts/posts.json"]
+}
