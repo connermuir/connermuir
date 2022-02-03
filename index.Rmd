@@ -5,13 +5,17 @@ links:
   - label: LinkedIn
     url: "https://www.linkedin.com/in/conner-smith-2551b087/"
   - label: GitHub
-    url: "https://github.com/connermuir/portfolio"
+    url: "https://github.com/connermuir/"
   - label: Email
     url: "mailto:connersmith@bren.ucsb.edu"
+  - label: Woodworking
+    url: "https://www.muirwoodworks.com/portfolio"
+  - label: Music
+    url: "https://open.spotify.com/artist/2xxSpgZlXT0M2nAokClu5R?si=-jOq9gtQSlCpc1C45cG7vA"
 site: distill::distill_website
 output:
   postcards::jolla
 
 ---
  
-I am an environmental science and policy professional living in Santa Barbara.  Currently, I am a Master's student at the UCSB Bren School of Environmental Science and Management. I am an avid surfer and steward of the coastal environment.
+I am an environmental science and policy professional and artist from North Carolina who currently calls Santa Barbara home.  Currently, I am a Master's student at the UCSB Bren School of Environmental Science and Management. I am an avid surfer, Americana musician, and steward of the coastal environment.
