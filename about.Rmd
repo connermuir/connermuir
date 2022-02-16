@@ -16,7 +16,7 @@ include_graphics('bolinas.jpg')
 
 As both a scientist and an artist, I am on an endless quest to find harmony between these worlds and use the tools and trades of each to enhance a shared message: the need to restore our connection to the non-human world. 
 
-This has only become more essential in the thrall of climate change. Compounding risks facing every ecosystem amplify the need for compelling storytelling ─ through both analysis and art ─ around actions that can be taken to foster reciprocity. As one of my favotie authors Richard Powers writes in *The Overstory*, “A good answer is worth reinventing from scratch, again and again.” Reinventing our relationship with the natural world may just provide some of the good answers we are in desperate need of.
+This has only become more essential in the thrall of climate change. Compounding risks facing every ecosystem amplify the need for compelling storytelling ─ through both analysis and art ─ around actions that can be taken to foster reciprocity. As one of my favorite authors Richard Powers writes in *The Overstory*, “A good answer is worth reinventing from scratch, again and again.” Reinventing our relationship with the natural world may just provide some of the good answers we are in desperate need of.
 
 I believe that building diverse coalitions is the only way to repair fractured relationships with the land. I also believe that this approach presents the opportunity to promote environmental justice in public land and seas management in the United States. In particular, active participation can begin to restore the rights of Native American communities that for centuries have been left out of management decisions and removed from ancestral 
 territory.
@@ -63,11 +63,8 @@ targeting disaster relief and climate resilience in regions impacted by devastat
 - Prepared more than 50 research and policy memos for President Clinton and foundation leadership to 
 inform internal policy and data collection across the Foundation
 
-### CV 
-
-Placeholder, struggling with code. 
 
 ```{r}
-
+# Placeholder for automated CV, struggling with code. 
 ```
 
