@@ -1,0 +1,133 @@
+---
+title: "Hubbard Brooks LTER Sugar Maple Study"
+description: |
+  An analysis exploring the impacts of soil treatment on sugar maple growth for trees in acid rain effected watersheds.
+author: "Conner Smith"
+date: "12/4/2021"
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE, message=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+# Attach packages.
+
+library(tidyverse)
+library(here)
+library(kableExtra)
+library(ggbeeswarm)
+library(effsize)
+```
+
+## **Overview**
+
+This analysis explores differences in growth patterns between sugar maples in acid-rain affected watersheds that have received calcium addition treatment, and those that have not. The data was collected in both 2003 and 2004 by researchers at Hubbard Brooks LTER site in New Hampshire.
+
+```{r}
+# Read in the data.
+
+maples <- read_csv(here("_projects", "sugar_maple", "data", "maples.csv")) 
+```
+
+## **Analysis**
+
+This analysis presents summary statistics for maple growth rates between the two plot types and employs a two-sample t-test to explore if any differences in growth rates are significant. 
+
+##### **Table 1: Maple Growth Rates by Site and Year** - *This table provides summary statistics for maple stem length and mass. The data shows tree growth between the two study years (2003 and 2004) and larger on average stems in the treatment watershed ("W1") compared to the reference.*
+
+```{r}
+# Create a subset of the data for only stem characteristics. `group_by` year and watershed. 
+
+stems <- maples %>% 
+  select(year, watershed, stem_length, stem_dry_mass) 
+
+stems_summary <- stems %>% 
+  group_by(watershed, year) %>% 
+  summarize(sample_size = n(),
+            mean_length = mean(stem_length),
+            sd_length = sd(stem_length),
+            mean_mass = mean(stem_dry_mass),
+            sd_mass = sd(stem_dry_mass))
+
+stems_summary %>% 
+  kable(col.names = c("Watershed", 
+                      "Year", 
+                      "Sample Size",
+                      "Stem Length Mean(mm)",
+                      "Stem Length Standard Deviation (mm)", 
+                      "Stem Mass Mean (g)", 
+                      "Stem Mass Standard Deviation(g)"), digits = 2) %>% 
+  kable_styling(bootstrap_options = "striped", full_width = FALSE)
+```
+
+#### **Figure 1: Stem Dry Mass at Treatment and Reference Sites (2003)**
+
+```{r}
+# Filter for only 2003 data. 
+
+stems_y1 <- stems %>% 
+  filter(year == "2003")
+
+ggplot(data = stems_y1, aes(x = watershed, y = stem_dry_mass)) +
+  geom_beeswarm(aes(color = watershed), 
+                dodge.width = 1, cex = 2, show.legend = FALSE) +
+  geom_boxplot(fill = NA, width = 0.2, outlier.color = NA) +
+  stat_summary(fun.y = "mean",
+               color = "skyblue4",
+               shape = 19) +
+  scale_color_manual(values = c("darkgoldenrod1", "darkorange2")) +
+  theme_bw() +
+  labs(x = "Watershed", y = "Strem Dry Mass (g)")
+```
+
+##### **Figure 1:** *This graph shows the breakdown of stem mass in both the control ("Reference") and treatment ("W1") watersheds for 2003. This shows a clear increase in stem mass for the treatment plot. The boxes on the graph show the median as well as the 25th and 75th percentile mass values. The mean is marked as a single darker point.*
+
+```{r}
+# Run diagnostic plots to determine whether a t-test is appropriate. 
+
+ggplot(data = stems_y1, aes(x = stem_dry_mass)) +
+  geom_histogram(aes(fill = watershed)) +
+  facet_wrap(~ watershed) +
+  labs(x = "Stem Mass (g)", y = "Count")
+
+ggplot(data = stems_y1, aes(sample = stem_dry_mass)) +
+  geom_qq(aes(color = watershed)) +
+  facet_wrap(~ watershed)
+
+```
+
+There is nothing in these visualizations to show that the data is not normally distributed. All of the visualizations show the presence of a few outlier values, but the majority of observations are clustered more closely together around the mean. Because of this, a t-test is appropriate to explore the difference in mean stem length between the treatment and control sites.  
+
+```{r}
+# Run the t-test and Cohen's D 
+
+stems_ref <- stems_y1 %>% 
+  filter(watershed == "Reference") %>% 
+  pull(stem_dry_mass)
+
+stems_w1 <- stems_y1 %>% 
+  filter(watershed == "W1") %>% 
+  pull(stem_dry_mass)
+
+stems_t <- t.test(stems_ref, stems_w1)
+
+stems_cohen <- cohen.d(stems_ref, stems_w1)
+
+mean_diff <- stems_summary[3, "mean_mass"] - stems_summary[1, "mean_mass"] 
+
+mean_percent <- mean_diff / ((stems_summary[3, "mean_mass"] + stems_summary[1, "mean_mass"])/2)
+```
+
+The mean mass of stems on maples in the treatment watershed (`r round(stems_summary$mean_mass[3], 3)` $\pm$ `r round(stems_summary$sd_mass[3], 3)` grams, *n* = `r stems_summary$sample_size[2]`; mean $\pm$ 1 standard deviation) is larger than that for reference watershed maples (`r round(stems_summary$mean_mass[1], 3)` $\pm$ `r round(stems_summary$sd_mass[1], 3)` grams, *n* = `r stems_summary$sample_size[1]`; mean $\pm$ 1 standard deviation). 
+
+This gives an absolute difference in means between the treatment and reference watershed maples of `r round(mean_diff, 3)` grams (or a `r round(mean_percent, 2)*100` percent difference). The difference in mean stem mass between the treatment and reference maples included in this sample is significant (two-sample t-test: t(`r round(stems_t$parameter,0)`= `r round(stems_t$statistic,2)`, *p* `r ifelse(stems_t$p.value < .001, paste("< .001"), paste(" = ", stems_t$p.value))`. The effect size is large (Cohen's *d* = `r round(stems_cohen$estimate,2)`). 
+
+Overall, this does not prove that calcium treatment for watersheds impacted by acid rain increases the growth rate of sugar maples. It only proves that the difference in growth rates between the reference and treatment plots is significant. It is possible that other variables besides the treatment could contribute to this difference. 
+
+## **Data Source**
+
+*Sugar maples data source: Juice, S. and T. Fahey. 2019. Health and mycorrhizal colonization response of sugar maple (Acer saccharum) seedlings to calcium addition in Watershed 1 at the Hubbard Brook Experimental Forest ver 3. Environmental Data Initiative. https://doi.org/10.6073/pasta/0ade53ede9a916a36962799b2407097e*
+
+
