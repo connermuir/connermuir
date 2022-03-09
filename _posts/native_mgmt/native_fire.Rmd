@@ -1,7 +1,7 @@
 ---
 title: "The Case for Native-led Forest Management in California"
 description: |
-  Partnerships between Native Californians and state agencies are one step that can lead towards greater coexistence with this natural element of the California landscape.
+ Partnerships between Native Californians and state agencies are one step that can lead towards greater coexistence with this natural element of the California landscape.
 author:
   - name: Conner Smith
 date: 2022-02-03

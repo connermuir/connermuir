@@ -1,31 +1,11 @@
 ---
-title: "About Me"
+title: "CV - Conner Smith"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-
-library(tidyverse)
-library(knitr)
-```
-
-```{r}
-include_graphics('bolinas.jpg')
-```
+<a href = "smith_conner_cv.pdf" target = '_blank'>Click here for a PDF</a>
 
 
-As both a scientist and an artist, I am on an endless quest to find harmony between these worlds and use the tools and trades of each to enhance a shared message: the need to restore our connection to the non-human world. 
-
-This has only become more essential in the thrall of climate change. Compounding risks facing every ecosystem amplify the need for compelling storytelling ─ through both analysis and art ─ around actions that can be taken to foster reciprocity. As one of my favorite authors Richard Powers writes in *The Overstory*, “A good answer is worth reinventing from scratch, again and again.” Reinventing our relationship with the natural world may just provide some of the good answers we are in desperate need of.
-
-I believe that building diverse coalitions is the only way to repair fractured relationships with the land. I also believe that this approach presents the opportunity to promote environmental justice in public land and seas management in the United States. In particular, active participation can begin to restore the rights of Native American communities that for centuries have been left out of management decisions and removed from ancestral 
-territory.
-
-As a Master's student, I am interested in research using spatial analysis to map wildfire risk, developing ecosystem services frameworks centered around Traditional Ecological Knowledge, and eco-social assessments for climate resilient marine food systems.
-
-### Experience (placeholder until CV fixed)
-
-**Researcher – Ocean Analytics, Santa Barbara, CA (11/21–Present)**
+### **Researcher – Ocean Analytics, Santa Barbara, CA (11/21–Present)**
 
 - Conduct comprehensive analysis of all 46 federally managed fisheries in the United States to develop the 
 first nationwide review of prevailing management strategies 
@@ -33,7 +13,7 @@ first nationwide review of prevailing management strategies
 fishery resilience to climate change 
 - Findings from research will inform a white paper expected to be completed in May 2022
 
-**Policy Analyst – Atlas Public Policy, Remote, SF Bay Area (4/21–6/21)**
+### **Policy Analyst – Atlas Public Policy, Remote, SF Bay Area (4/21–6/21)**
 
 - Directed research, data collection, and writing for two reports funded by a large trade association 
 identifying climate, environmental justice, and economic opportunities of transportation electrification 
@@ -42,7 +22,7 @@ sector entities seeking to develop a living database of climate policies in the 
 - Leveraged original research and data collection to publish data-based storytelling funded by key players in 
 the electric vehicle (EV) and environmental policy spaces
 
-**Policy Associate – Atlas Public Policy, Remote, SF Bay Area (2/19–4/21)**
+### **Policy Associate – Atlas Public Policy, Remote, SF Bay Area (2/19–4/21)**
 
 - Led data collection and outreach for the Atlas EV Hub, a subscription-based platform that grew from 500 
 to more than 1,000 professional users over this time
@@ -52,7 +32,7 @@ vehicles by 2035
 - Published more than 10 research papers funded by partnerships with stakeholders in the clean 
 transportation space
 
-**Program Associate – Clinton Foundation, New York, NY (6/17–10/18)**
+### **Program Associate – Clinton Foundation, New York, NY (6/17–10/18)**
 
 - Simulated a country-wide adoption of 100 percent renewable energy in Belize using excel and HOMER 
 software, culminating in several presentations to more than 10 elected officials 

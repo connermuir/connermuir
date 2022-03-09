@@ -1,5 +1,5 @@
 ---
-title: "Conner Smith"
+title: "Conner Smith" 
 image: "me.jpg"
 links:
   - label: LinkedIn
