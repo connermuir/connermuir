@@ -1,0 +1,183 @@
+---
+title: "Text Analysis of Dune"
+description: |
+  A text analysis exploring common word use and sentiment across the three major sections of Frank Herbert's novel, Dune.
+author: "Conner Smith"
+date: "3/6/2022"
+output: 
+  distill::distill_article:
+   self_contained: false
+   code_folding: show
+---
+
+```{r setup, include=TRUE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(tidytext)
+library(textdata)
+library(pdftools)
+library(ggwordcloud)
+library(thematic)
+library(scales)
+library(knitr)
+
+```
+
+## **Overview**
+
+```{r}
+include_graphics(here("_projects", "dune_analysis",'dune.jpg'))
+```
+
+This short study performs a text analysis on Frank Herbert's Science Fiction masterpiece, *Dune.* The book was first published in 1965 and follows the journey of Paul Atreides as he transitions from the gifted son of a powerful duke to the ruler of the fremen on Arakis and his conquest over the Harkonnens and the Emperor's Sardukar army. *Dune* is world-building at its finest and is full of vivid imagery surrounding the desert planet of Arakis and the ecological-oriented culture of its native people, the Fremen. Dune provides lessons for a fractured world and insight into themes of power, extractive production, and environmental management. 
+
+<span style="color: darkgoldenrod;">**Reference:** *Herbert, Frank. Dune, New York, NY: Chilton Books, 1965.*</span>
+
+```{r, cache = TRUE}
+# Download Dune PDF
+
+dune <- pdf_text(here("_projects", "dune_analysis", 'data', 'dune.pdf'))
+```
+
+## **Analysis** {.tabset}
+
+This analysis will look at the msot common words used across the three books in *Dune*:
+
+- "Book 1: Dune" 
+
+- "Book 2: Muad'Dib" 
+
+- "Book 3: The Prophet"
+
+```{r}
+# Convert into a data frame 
+
+dune_lines <- data.frame(dune) %>% 
+  mutate(page = 1:n()) %>%
+  mutate(text_full = str_split(dune, pattern = '\\n')) %>% 
+  unnest(text_full) %>% 
+  mutate(text_full = str_trim(text_full)) 
+
+dune_books <- dune_lines %>% 
+  slice(-(1:120), -(18344:20266)) %>% # Getting rid of opening sections 
+  mutate(book = ifelse(str_detect(text_full, "Book"), text_full, NA)) %>% 
+  fill(book, .direction = 'down') %>% 
+  separate(col = book, into = c("book", "no"), sep = " ") %>% 
+  mutate(no = case_when(no == 'One' ~ "1",
+                        no == 'Two' ~ "2",
+                        no == 'Three' ~ "3")) %>%
+  mutate(no = as.numeric(no)) %>% 
+  drop_na() # a few NA values made it through the filtering
+
+# Now we have the book numbers in the data frame 
+```
+
+### <span style="color: darkgoldenrod;">Word Counts</span> 
+
+This tab looks at the most common words used across the three books of Dune including both a graph of the top 10 words and a word cloud shwoing the 100 msot common works in the second book. 
+
+```{r}
+dune_words <- dune_books %>% 
+  unnest_tokens(word, text_full) %>% 
+  select(-dune) %>%
+  anti_join(stop_words, by = 'word')
+
+# Articles and filler words removed 
+
+dune_wordcount <- dune_words %>% 
+  count(no, word)
+
+top_10_words <- dune_wordcount %>% 
+  group_by(no) %>% 
+  arrange(-n) %>% 
+  slice(1:10) %>%
+  ungroup() %>% 
+  mutate(word = fct_reorder(word, n)) 
+```
+
+
+#### **Figure 1: Top 10 Word Count by Book**
+
+```{r}
+# Create a bar graph with a "Dune" gradient
+
+
+book_names <- as_labeller(c('1' = 'Book 1: Dune', '2'="Book 2: Muad'dib", '3'="Book 3: The Prophet"))
+  
+  ggplot(data = top_10_words, aes(x = n, y = word, fill = n)) +
+  geom_bar(stat = "identity") +
+  scale_fill_gradient("Count", low = "gold2", high = "sienna3") +
+  facet_wrap( ~no, scales = "free", labeller = book_names) +
+  theme(strip.background = element_rect(fill = "sienna")) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_line(color = "khaki")) +
+  theme(plot.caption = element_text(hjust = 0, face = "bold.italic"))+
+  labs(y = "Word", x = "Count", caption = "Top 10 words across the three primary books of Dune")
+  
+```
+
+We see from this that the character names are the most common words across all three books of *Dune*. Unsurprisingly, words like "water" and "sand" are among the most common to occur as well. This fits with the prevailing environmental and ecological narratives of this book which go into great depth about human relationships with water and the desert on Arrakis. There are a few surprises here. Spice, the intoxicant that is the bedrock of the galactic economy and produced only on Arrakis, does not emerge in the top 10 words in any of the books. 
+
+#### **Figure 2: Cloud for top 100 Words in Book 2**
+
+```{r}
+book2_top100 <- dune_wordcount %>% 
+  filter(no == 2) %>% 
+  arrange(-n) %>% 
+  slice(1:100)
+
+# Create a wordcloud
+book2_cloud <- ggplot(data = book2_top100, aes(label = word)) +
+  geom_text_wordcloud(aes(color = n, size = n), shape = "diamond") +
+  scale_size_area(max_size = 10) +
+  scale_color_gradientn(colors = c("gold2", "sienna3")) +
+  theme_minimal()
+
+book2_cloud
+```
+
+This word cloud shows a wider selection of words from the second book, "Muad'dib." This is the name that Paul adopts as he is adopted into the Fremen clans as he and his mother, Jessica, flee persecution from the Harkonnens. Unsurprisingly, Paul is at the center of the *Dune* universe. Words like "spice" that don't appear in **Figure 1** begin to emerge when taking a wider cross section of the most common words. 
+
+
+### <span style="color: darkgoldenrod;">Sentiment Analysis</span> 
+
+This analysis uses the NRC lexicon to identify the primary sentiments across all three books of *Dune*. This lexicon was chosen for its ability to parse out specific emotional attitudes rather than a ranked and/or binary scale of negative or positive sentiments for the AFINN and Bing lexicons.  
+
+<span style="color: darkgoldenrod;">**Data Source:** *Crowdsourcing a Word-Emotion Association Lexicon, Saif Mohammad and Peter Turney, Computational Intelligence, 29 (3), 436-465, 2013.*</span>
+
+#### **Figure 3: Leading Sentiments Word Count by Book**
+```{r}
+# Use the nrc lexiconn
+
+dune_nrc <- dune_words %>% 
+  inner_join(get_sentiments("nrc"))
+
+dune_nrc_counts <- dune_nrc %>% 
+  count(no, sentiment) %>% 
+  arrange(-n) %>% 
+  mutate(sentiment = str_to_title(sentiment)) %>% 
+  mutate(sentiment = fct_reorder(sentiment, n))
+  
+
+
+ggplot(data = dune_nrc_counts, aes(x = sentiment, y = n, fill = n)) +
+  facet_wrap(~no) +
+  coord_flip() +
+  geom_bar(stat = "identity") +
+  scale_fill_gradient("Count", low = "gold2", high = "sienna3") +
+  scale_y_continuous(breaks = pretty_breaks(n = 3)) +
+  facet_wrap( ~no, scales = "free", labeller = book_names) +
+  theme(strip.background = element_rect(fill = "sienna")) +
+  theme(panel.background = element_blank(),
+        panel.grid = element_line(color = "khaki")) +
+  theme(plot.caption = element_text(hjust = 0, face = "bold.italic"))+
+  labs(x = "Sentiment", y = "Count", caption = "Leading sentiments words across the three primary books of Dune using the NRC lexiconn.")
+
+```
+
+This figures shows an interesting pattern in sentiments across the three *Dune* books. At a high level, Frank Herbet appears to employ a generally steady writing tone throughout the book with minimal swings in overall sentiment from book section to book section. That being said, "Positive" and "Negative" sentiments appear to even out as the book proceeds with more "Positive" sentiment relative to "Negative" sentiment in *Book 1* being focused primarily on the time before tragedy finds the Attreides family on Arrakis. "Fear" is a sentiment that seems to decline throughout the book. This could be explained by Paul's increasing comfort in his power as the leader of the Fremen and mastery over his emotions emblemized in the Litany Against Fear: 
+
+<span style="color: darkgoldenrod;">*"I must not fear.Fear is the mind-killer. Fear is the little-death that brings total obliteration. I will face my fear. I will permit it to pass over me and through me.And when it has gone past, I will turn the inner eye to see its path.Where the fear has gone there will be nothing. Only I will remain." - Frank Herbet, Dune (1965)*</span>

@@ -1,0 +1,201 @@
+---
+title: "Willamette Falls Fish Passage Analysis"
+description: |
+  An analysis exploring time series data on fish passage through the Willamette Falls fish ladder from 2001 to 2010 for three species.
+author: "Conner Smith"
+date: "3/3/2022"
+output:
+  distill::distill_article:
+   self_contained: false
+   code_folding: show
+
+---
+
+```{r setup, include=TRUE, message=FALSE, warning=FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
+
+library(tidyverse)
+library(here)
+library(janitor)
+library(knitr)
+library(fable)
+library(tsibble)
+library(feasts)
+library(lubridate)
+library(thematic)
+library(cowplot)
+library(scales)
+
+
+```
+
+## **Overview**
+
+```{r}
+# Read in the main data set
+
+fish <- read_csv(here("_projects", "fish_passage",
+                        "data", "willamette_fish_passage.csv")) %>% 
+  clean_names()
+
+# Adding image
+include_graphics(here("_projects", "fish_passage", 'chinook.jpg'))
+```
+
+[Source: Corvallis Advocate](https://www.corvallisadvocate.com/2020/army-corps-failed-to-protect-willamette-river-salmon-judge-rules/)
+
+This analysis looks at fish passage data at Willamette Falls collected by the University of Washington's Columbia Basin Research initiative. Data collection is ongoing and managed by a combination of federal, state, and tribal agencies. The tabs below include time series data, seasonal plots, and annual counts by species for fish ladder passage at Willamette Falls from 2001 to 2010.    
+
+
+**Data Citation**
+*University of Washington, Columbia Basin Research. 2010. DART Adult Passage Graphics & Text.* http://www.cbr.washington.edu/dart/query/adult_graph_text.
+
+
+## **Analysis** {.tabset}
+
+This analysis includes three separate tabs looking at different ways of visualizing fish passage data for three target species: Coho, Jack Coho, and Steelhead. Jack Coho return to the rivers to spawn in the same year that they smolted and are significantly smaller than the regular Coho recorded in this data set. 
+
+### **Original Time Series**
+
+*Tab 1* shows the full time series of Willamette Falls fish passage counts for the three target species from 2001 to 2010. 
+
+```{r}
+# Convert this to a tsibble since the 'date' column is a character
+
+fish_ts <- fish %>% 
+  mutate(date = mdy(date)) %>% #Using 'lubridate::mdy' instead of 'tsibble::yearmonth'
+  as_tsibble(key = NULL, index = date) %>% 
+  select(coho, jack_coho, steelhead) %>% #Filter for these three species
+  replace_na(list(coho = 0, jack_coho = 0, steelhead = 0)) %>% 
+
+# want to make all fish appear in same column with 'pivot_longer'
+  
+  pivot_longer(cols = c(coho, jack_coho, steelhead),
+               names_to = 'fish_species',
+               values_to = 'passage_count') %>% #Get the names back to normal format
+  mutate(fish_species = case_when(fish_species == 'coho' ~ 'Coho',
+                   fish_species == 'jack_coho' ~ 'Jack Coho',
+                   fish_species == 'steelhead' ~ 'Steelhead'))
+
+```
+
+#### **Figure 1: Counts of Fish Passage for Coho, Jack Coho, and Steelhead (2001-2010)**
+```{r}
+# Calling the wrangled data frame into a static graph 
+
+ggplot(data = fish_ts, aes(x = date, y = passage_count)) + 
+  geom_line(aes(color = fish_species)) +
+  scale_color_manual("Fish Species", 
+                     values = c('slateblue', 'olivedrab2', 'aquamarine3')) +
+  labs(x = "Date", y = "Passage Counts", 
+       caption = "Figure 1: Time series fish passage counts for Coho, Jack Coho and Steelhead at Willamette Falls (2001 - 2010)") +
+   theme(plot.caption = element_text(hjust = 0, face = "bold.italic")) +
+  theme(legend.position = "bottom")
+
+
+```
+
+#### Key Takeaways
+
+- Passage of Steelhead at Willamette Falls remains relatively consistent year to year with clear seasonal trends. 
+
+- Passage counts for Coho increase significantly after 2008 and are more than twice as high as Steelhead passage counts in 2010. 
+
+- Jack Coho showed the smallest number of passages. Jack Coho are smaller than Coho and may have more difficulty passing through the fish ladder compared to older, larger Coho.  
+
+### **Season Plots**
+
+*Tab 2* shows the seasonal patterns for each species across the entire time scale in order to explain some of the patterns seen in **Figure 1** in *Tab 1*. 
+
+#### **Figure 2: Seasonal Passage Counts By Species**
+
+```{r fig.height= 10}
+
+coho_plot <- fish_ts %>% 
+  filter(fish_species == "Coho") %>% 
+  gg_season(y = passage_count) +
+  scale_color_viridis_c() +
+  labs(title = "Coho Passages", y = "Passage Counts") +
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank())
+
+jack_plot <- fish_ts %>% 
+  filter(fish_species == "Jack Coho") %>% 
+  gg_season(y = passage_count) +
+  scale_color_viridis_c() +
+  labs(title = "Jack Coho Passages", y = "Passage Counts") +
+  theme(legend.position = "none") +
+  theme(axis.title.x = element_blank())
+
+steel_plot <- fish_ts %>% 
+  filter(fish_species == "Steelhead") %>% 
+  gg_season(y = passage_count) +
+  scale_color_viridis_c() +
+  labs(title = "Steelhead Passages", y = "Passage Counts",
+       caption = "Figure 2: These graphs show the seasonality of passages across the three species.\nThe values in the legend refer to the 10-year range of data with '10' corresponding to 2010.") +
+  theme(plot.caption = element_text(hjust = 0, face = "bold.italic")) +
+  theme(legend.position = "bottom") +
+  theme(axis.title.x = element_blank()) 
+
+plot_grid(coho_plot,jack_plot,steel_plot,
+          cols = 1, nrow = 3)
+
+```
+
+
+#### Key Takeaways
+
+- Passages for Coho (including Jacks) are concentrated in a smaller band of months (September - November) compared to Steelhead which pass through Willamette Falls throughout the first half of the year. 
+
+- Jack Coho have the smallest passage window, which peaks in October and likely corresponds with the spawning cycles for this species. 
+
+- Higher passages for Coho and Jack Coho (displayed by lines with values on the upper end of the range outlined in the legend) correspond to the increases in passage counts after 2008 displayed in **Figure 1** in *Tab 1*.
+
+### **Annual Count by Species**
+
+*Tab 3* looks at the total annual passages for each of the three species across all data years. This differs from *Tab 1*, which showed daily passages.  
+
+```{r}
+
+# This will do the same wrangling as in the time series tab but without converting to a tsibble 
+
+fish_counts <- fish %>% 
+  mutate(date = mdy(date)) %>% #lubridate
+  select(coho, jack_coho, steelhead, date) %>% 
+  replace_na(list(coho = 0, jack_coho = 0, steelhead = 0)) %>%
+  pivot_longer(cols = c(coho, jack_coho, steelhead),
+               names_to = 'fish_species',
+               values_to = 'passage_count') %>% 
+  mutate(fish_species = case_when(fish_species == 'coho' ~ "Coho",
+                             fish_species == 'jack_coho' ~ "Jack Coho",
+                             fish_species == 'steelhead' ~ "Steelhead")) %>% 
+  
+  # Now we need to generate counts by year
+  mutate(year = year(date)) %>% 
+  select(-date) %>% # Don;t need date anymore
+  group_by(year, fish_species) %>% 
+  summarize(annual_counts = sum(passage_count))
+```
+
+#### **Figure 3: Annual Passage Counts by Species (2001-2010)**
+```{r}
+
+ggplot(data = fish_counts, aes(x = year, y = annual_count)) +
+  geom_line(aes(x = year, y = annual_counts, color = fish_species)) +
+  scale_x_continuous(breaks = pretty_breaks(n = 5)) +
+  scale_color_manual("Fish Species",
+                     values = c('slateblue', 'olivedrab2', 'aquamarine3')) +
+  labs(x = "Date", y = "Passage Counts", 
+       caption = "Figure 3: Annual fish passage counts for Coho, Jack Coho, and Steelhead at Willamette Falls.") +
+   theme(plot.caption = element_text(hjust = 0, face = "bold.italic")) +
+  theme(legend.position = "bottom")
+  
+```
+
+#### Key Takeaways
+
+- Annual counts confirm what is shown in **Figure 1** in *Tab 1* where more Coho are passing through Willamette Falls after 2008.
+
+- Steelhead passages are higher overall on the annual level with the exception of 2019 where Coho passages surpassed the Steelhead passages. 
+
+- Jack Coho passages were relatively consistent across the time range and generally stayed below the level of passages for adult Coho. 
