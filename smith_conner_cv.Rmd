@@ -2,7 +2,7 @@
 title: "CV - Conner Smith"
 ---
 
-<a href = "smith_conner_cv.pdf" target = '_blank'>Click here for a PDF</a>
+<a href = "smith_conner_cv.pdf" target = '_blank'>Click here for the full CV</a>
 
 
 ### **Researcher – Ocean Analytics, Santa Barbara, CA (11/21–Present)**
