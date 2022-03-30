@@ -1,5 +1,22 @@
 [
   {
+    "path": "projects/kelp_app/",
+    "title": "Santa Barbara Kelp Forest Dynamics - Shiny App",
+    "description": "This shiny app uses data collected by the SBC LTER and provides visualizations and summary figures indicating different kelp forest dynamics in the Santa Barbara region.",
+    "author": [
+      {
+        "name": "Conner Smith",
+        "url": {}
+      }
+    ],
+    "date": "2022-03-29",
+    "categories": [],
+    "contents": "\r\n\r\n\r\n\r\nSource: Acccess the App on the Shiny Server\r\nKelp forests throughout California are facing multiple threats due to climate change. Increasing ocean temperatures, extreme marine heat waves, loss of predators and subsequent overgrazing by purple urchins put kelp forests at risk and imperill the multitude of species that depend on them. This app seeks to visualize the key factors influencing kelp forest health in Santa Barbara.\r\nAcklowledgments: All data included in this app is collected and managed by the Santa Barbara Coastal Long Term Ecological Research station (LTER).\r\n\r\n\r\n\r\n",
+    "preview": {},
+    "last_modified": "2022-03-30T09:38:34-07:00",
+    "input_file": "kelp_app.knit.md"
+  },
+  {
     "path": "projects/dune_analysis/",
     "title": "Text Analysis of Dune",
     "description": "A text analysis exploring common word use and sentiment across the three major sections of Frank Herbert's novel, Dune.",

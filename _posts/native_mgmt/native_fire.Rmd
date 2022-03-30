@@ -12,7 +12,14 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+
 ```
+
+```{r}
+knitr::include_graphics('native_fire_files/fire.webp')
+```
+
+[Source: Sippakorn Yamkasikorn](https://www.brencomm.com/post/the-case-for-native-led-forest-management-in-california)
 
 Fires are burning hotter and longer throughout California, prompting forest managers to ask the question, Is “fire season” a thing of the past? Cal Fire, the agency responsible for monitoring and responding to a majority of wildfire activity, estimates that the traditional fire season [which typically peaks between July and October] has already expanded by 75 days throughout the Sierra Nevada. In 2021, the agency tracked fires from Santa Barbara to the Oregon border, and as of year’s end, 2.6 million acres of forest had burned.  Both climate change and management regimes focused on fire suppression at any cost have created this new age of almost annual super fires. This is forcing state officials to question prevailing narratives and acknowledge a dark environmental past ─ namely, the exclusion of Native Californians and their traditional practices from modern forest management.
 

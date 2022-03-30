@@ -1,0 +1,27 @@
+---
+title: "Santa Barbara Kelp Forest Dynamics - Shiny App"
+description: |
+ This shiny app uses data collected by the SBC LTER and provides visualizations and summary figures indicating different kelp forest dynamics in the Santa Barbara region.
+author:
+  - name: Conner Smith
+date: 2022-03-29
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+```
+
+```{r}
+knitr::include_graphics('kelp_forest.jpg')
+```
+
+[Source: Acccess the App on the Shiny Server](https://connermuir.shinyapps.io/sbc_lter_kelp/)
+
+Kelp forests throughout California are facing multiple threats due to climate change. Increasing ocean temperatures, extreme marine heat waves, loss of predators and subsequent overgrazing by purple urchins put kelp forests at risk and imperill the multitude of species that depend on them. This app seeks to visualize the key factors influencing kelp forest health in Santa Barbara.
+
+**Acklowledgments:**
+*All data included in this app is collected and managed by the Santa Barbara Coastal Long Term Ecological Research station (LTER).*
