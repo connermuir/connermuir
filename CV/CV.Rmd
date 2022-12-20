@@ -59,7 +59,8 @@ sector entities seeking to develop a living database of climate policies in the 
          "Led data collection and outreach for the Atlas EV Hub, a subscription-based platform that grew from 500 
 to more than 1,000 professional users over this time
 ", "Published more than 10 research papers funded by partnerships with stakeholders in the clean transportation space"),
-  "Program Associate", "Clinton Foundtion", "New York, New York", "June 2017 - October 2018", list("Simulated a country-wide adoption of 100 percent renewable energy in Belize using excel and HOMER software, culminating in several presentations to more than 10 elected officials", "Conducted research under a $5 million grant with partners at the Rocky Mountain Institute to develop long term clean energy roadmaps for island nations", "Helped secure millions of dollars in commitments from Clinton Global Initiative member organizations targeting disaster relief and climate resilience in regions impacted by devastating hurricanes in 2017")
+  "Program Associate", "Clinton Foundtion", "New York, New York", "June 2017 - October 2018",
+list("Simulated a country-wide adoption of 100 percent renewable energy in Belize using excel and HOMER software, culminating in several presentations to more than 10 elected officials", "Conducted research under a $5 million grant with partners at the Rocky Mountain Institute to develop long term clean energy roadmaps for island nations", "Helped secure millions of dollars in commitments from Clinton Global Initiative member organizations targeting disaster relief and climate resilience in regions impacted by devastating hurricanes in 2017")
 ) %>% 
   detailed_entries(role, dates, company, loc, details)
 ```
