@@ -10,7 +10,7 @@ navbar:
       href: index.html
     - text: "About"
       href: about.html
-    - text: "Blog"
+    - text: "Writings"
       href: blog.html
     - text: "Projects"
       href: projects.html
