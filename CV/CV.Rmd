@@ -38,11 +38,18 @@ tribble(
 ```{r}
 tribble(
   ~ role, ~ company, ~ loc, ~ dates, ~ details,
-  "Researcher", "Ocean Analytics", "Santa Barbara, California", "Nov. 2021 - Present", 
-    list("Conduct comprehensive analysis of all 46 federally managed fisheries in the United States to develop the 
+  "Fellow", "Sustainable Ocean Alliance/Environmental Defense Fund", "Remote, Santa Barbara, California", "Jun. 2022 - Present", 
+    list("Awarded $10k micro-grant through the Leadership for Climate-Resilient Fisheries Fellowship",
+         "Synthesizing research on Indigenous-led fisheries, aquaculture, and coastal management initiatives", "Working to leverage science promoting Native leadership and co-management strategies"
+    ),
+  "Researcher", "The Nature Conservancy", "Remote, Santa Barbara, California", "Jun. 2022 - Aug. 2022", 
+    list("Worked on contract with TNC staff to research kelp forest restoration activities",
+         "Interviewed two dozen government, non-profit, industry, and private stakeholders to assess urchin removal methods and costs", "Produced a report identifying key opportunities to grow urchin removal workforce at a program scale"
+    ),
+"Researcher", "Ocean Analytics", "Santa Barbara, California", "Nov. 2021 - Aug. 2022", 
+    list("Conducted comprehensive analysis of all 46 federally managed fisheries in the United States to develop the 
 first nationwide review of prevailing management strategies",
-         "Work directly with NGO partners and fisheries managers to identify key policy developments and assess 
-fishery resilience to climate change", "Findings from research will inform a white paper expected to be completed in May 2022"
+         "Article published in Fish and Fisheries in December 2022", "Leveraged R software to process fishery stock assessment data and perform analyses to identify effectiveness of policies aimed at ensuring sustainability of international high seas fisheries"
     ),
   "Policy Analyst", "Atlas Public Policy", "Oakland, California", "Feb. 2019 - June 2020", 
     list("Directed research, data collection, and writing for two reports funded by a large trade association 
